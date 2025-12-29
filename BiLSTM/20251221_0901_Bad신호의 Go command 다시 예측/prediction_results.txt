@@ -1,0 +1,13 @@
+Hybrid(LSTM)_18-49_470_Go340_317.0.csv → Hold
+Hybrid(LSTM)_18-49_514_Go369_345.0.csv → Go
+Hybrid(LSTM)_18-49_61_Go32_22.0.csv → Go
+Hybrid(LSTM)_18-49_641_Go453_424.0.csv → Go
+Hybrid(LSTM)_18-49_661_Go465_434.0.csv → Go
+Hybrid(LSTM)_18-49_681_Go477_443.0.csv → Go
+Hybrid(LSTM)_18-49_725_Go507_466.0.csv → Go
+Hybrid(LSTM)_18-49_731_Go511_468.0.csv → Go
+Hybrid(LSTM)_18-49_763_Go530_482.0.csv → Hold
+Hybrid(LSTM)_18-49_782_Go540_490.0.csv → Go
+Hybrid(LSTM)_18-49_790_Go545_492.0.csv → Go
+Hybrid(LSTM)_18-49_797_Go550_495.0.csv → Go
+Hybrid(LSTM)_18-49_804_Go554_497.0.csv → Hold
