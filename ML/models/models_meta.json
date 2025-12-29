@@ -1,0 +1,26 @@
+{
+  "features": [
+    "Max",
+    "Min",
+    "Mean",
+    "Std",
+    "Median",
+    "IQR",
+    "RMS",
+    "Skewness",
+    "Kurtosis"
+  ],
+  "models": [
+    "rf",
+    "knn",
+    "dt",
+    "nb",
+    "svm_linear"
+  ],
+  "created_at": "Mon Oct 20 21:10:22 2025",
+  "notes": {
+    "linear_svm_dual": false,
+    "rf_n_jobs": -1,
+    "compression": "xz, level=5"
+  }
+}
