@@ -3,8 +3,8 @@ import shutil
 from collections import defaultdict
 
 # ================== 경로 ==================
-SRC_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\1_rawdata\csv"
-DST_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\Hold-Back"
+SRC_DIR = r"C:\Users\drkjh\Desktop\2025-2\FinalReport\Dataset\1회차 원본 csv"
+DST_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\check\Go-Back"
 
 os.makedirs(DST_DIR, exist_ok=True)
 
@@ -24,8 +24,8 @@ def parse_filename(fname):
         index = int(parts[2])
         cmd_part = parts[3].lower()
 
-        if "hold" in cmd_part:
-            cmd = "Hold"
+        if "go" in cmd_part:
+            cmd = "Go"
         elif "back" in cmd_part:
             cmd = "Back"
         else:
@@ -60,7 +60,7 @@ for exp_time, files in groups.items():
 
         if (
             cmd_curr == "Back"
-            and cmd_prev == "Hold"
+            and cmd_prev == "Go"
             and idx_curr == idx_prev + 1
         ):
             shutil.copy(
@@ -73,7 +73,7 @@ for exp_time, files in groups.items():
             )
 
             pair_count += 1
-            print(f" [{exp_time}] Hold→Back: {idx_prev} → {idx_curr}")
+            print(f" [{exp_time}] Go→Back: {idx_prev} → {idx_curr}")
 
-print(f" 총 저장된 Hold–Back 쌍: {pair_count}")
+print(f" 총 저장된 Go–Back 쌍: {pair_count}")
 print("완료.")

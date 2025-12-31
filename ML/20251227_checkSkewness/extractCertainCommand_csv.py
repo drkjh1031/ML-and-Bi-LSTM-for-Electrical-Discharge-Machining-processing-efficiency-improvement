@@ -2,8 +2,8 @@ import os
 import shutil
 
 # ---------------- 경로 설정 ----------------
-SRC_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\1_rawdata\csv"
-DST_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\generalBack"
+SRC_DIR = r"C:\Users\drkjh\Desktop\2025-2\FinalReport\Dataset\1회차 원본 csv"
+DST_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\check\Back"
 
 # ---------------- 출력 폴더 생성 ----------------
 os.makedirs(DST_DIR, exist_ok=True)
