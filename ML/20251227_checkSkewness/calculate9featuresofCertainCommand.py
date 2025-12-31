@@ -9,8 +9,8 @@ pd.set_option("display.width", 300)
 pd.set_option("display.max_colwidth", None)
 
 # ---------------- 경로 설정 ----------------
-INPUT_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\generalGo"
-OUTPUT_PATH = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\generalGo.csv"
+INPUT_DIR = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\Hold-Back"
+OUTPUT_PATH = r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\20251227_checkSkewness\HoldCommand_Hold-Back.csv"
 
 # ---------------- 결과 저장 ----------------
 results = []
@@ -20,8 +20,8 @@ for filename in os.listdir(INPUT_DIR):
     if not filename.lower().endswith(".csv"):
         continue
 
-    # Go command만 처리
-    if "_Go" not in filename:
+    # Hold command만 처리
+    if "_Hold" not in filename:
         continue
 
     file_path = os.path.join(INPUT_DIR, filename)
@@ -59,7 +59,7 @@ df_result = pd.DataFrame(results)
 
 # ---------------- CSV 저장 ----------------
 df_result.to_csv(OUTPUT_PATH, index=False, encoding="utf-8-sig")
-print(" generalGo.csv 생성 완료")
+print(" HoldCommand_Hold-Back.csv 생성 완료")
 
 # ---------------- 2×9 행렬 생성 ----------------
 feature_cols = [
@@ -78,5 +78,5 @@ matrix_2x9 = pd.DataFrame(
 )
 
 # ---------------- 터미널 출력 (절대 생략 없음) ----------------
-print("\n Go 신호 특징 요약 (2×9 Matrix)")
+print("\n HoldCommand_Hold-Back 신호 특징 요약 (2×9 Matrix)")
 print(matrix_2x9.to_string())
