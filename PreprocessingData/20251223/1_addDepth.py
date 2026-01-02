@@ -3,8 +3,8 @@ import pandas as pd
 from pathlib import Path
 import re
 
-IN_DIR = Path(r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\1_rawdata")
-OUT_DIR = Path(r"C:\Users\drkjh\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\2_")
+IN_DIR = Path(r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\1_rawdata")
+OUT_DIR = Path(r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\2_DepthBeforeProcessing")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"[INFO] Searching in: {IN_DIR.resolve()}")
