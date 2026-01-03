@@ -27,7 +27,7 @@ class VoltageDataset(Dataset):
             df = pd.read_csv(os.path.join(data_dir, fn))
 
             volt = df.iloc[:, 1].astype(np.float32).values
-            labels = df.iloc[:, 2].values
+            labels = df.iloc[:, 3].values
             labels = np.array([_label_to_id(v) for v in labels])
 
             for i in range(0, len(volt) - window_size + 1, window_size):

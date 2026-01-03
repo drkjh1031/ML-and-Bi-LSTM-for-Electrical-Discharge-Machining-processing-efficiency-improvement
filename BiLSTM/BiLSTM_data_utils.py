@@ -36,8 +36,8 @@ class VoltageDataset(Dataset):
             try:
                 df = pd.read_csv(path)
                 volt = df.iloc[:, 1].astype('float32').values
-                labelv = df.iloc[:, 2].values
-                depth = df.iloc[:, 3].astype('float32').values
+                labelv = df.iloc[:, 3].values
+                depth = df.iloc[:, 2].astype('float32').values
 
                 depth_norm = (depth - np.min(depth)) / (np.ptp(depth) + 1e-8)
                 depth_norm *= 0.2
