@@ -13,13 +13,9 @@ from sklearn.metrics import (
     average_precision_score
 )
 from sklearn.preprocessing import label_binarize
-
-# ===== 변경 ①: CNN 모델 import =====
-from CNN1D_models import VoltageCNN1D
-
-# ===== 공통 모듈 (변경 없음) =====
-from BiLSTM_data_utils import create_loaders
-from BiLSTM_trainer import VoltageTrainer
+from 2variableBasic1dCNN_data_utils import create_loaders
+from 2variableBasic1dCNN_trainer import VoltageTrainer
+from 2variableBasic1dCNN_models import VoltageCNN1D
 
 
 # =========================================================
@@ -148,15 +144,15 @@ def main(config):
 # =========================================================
 if __name__ == "__main__":
     config = {
-        "data_dir": r"C:\Users\PREMA\Desktop\FinalReport\Dataset\dataset",
+        "data_dir": r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\5_BiLSTM_dataset",
         "batch_size": 32,
         "window_size": 1000,
         "oversample_B": 1,
         "num_workers": 0,
         "epochs": 15,
         "lr": 1e-3,
-        "save_path": r"C:\Users\PREMA\Desktop\FinalReport\CNN1D\model\CNN1D.pth",
-        "fig_save_dir": r"C:\Users\PREMA\Desktop\FinalReport\Figures\CNN1D"
+        "save_path": r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\2variableBasic1dCNN\CNN1D.pth",
+        "fig_save_dir": r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\2variableBasic1dCNN\Figures\CNN1D"
     }
 
     main(config)

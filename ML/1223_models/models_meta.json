@@ -1,0 +1,26 @@
+{
+  "features": [
+    "Max",
+    "Min",
+    "Mean",
+    "Std",
+    "Median",
+    "IQR",
+    "RMS",
+    "Skewness",
+    "Kurtosis"
+  ],
+  "label_map": {
+    "Hold": 0,
+    "Go": 1,
+    "Back": 2
+  },
+  "models": [
+    "rf",
+    "knn",
+    "dt",
+    "nb",
+    "svm"
+  ],
+  "created_at": "Sat Jan  3 15:12:48 2026"
+}
