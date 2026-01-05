@@ -14,7 +14,7 @@ from sklearn.svm import LinearSVC
 from sklearn.inspection import permutation_importance
 
 # ===== 데이터 로드 =====
-csv_path = r"C:\Users\PREMA\Desktop\FinalReport\Dataset\7MLdataset\edited_dataset_window1000.csv"
+csv_path = r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\edited_dataset_window1000.csv"
 df = pd.read_csv(csv_path)
 
 features = ["Max", "Min", "Mean", "Std", "Median", "IQR", "RMS", "Skewness", "Kurtosis"]
@@ -46,23 +46,48 @@ X_test_scaled = scaler.transform(X_test)
 
 # ===== 폰트 크기 설정 =====
 plt.rcParams.update({
-    "font.size": 24,           # 기본 폰트
-    "axes.titlesize": 36,      # 차트 제목 (2배)
-    "axes.labelsize": 32,      # 축 제목 (2배)
-    "xtick.labelsize": 50,     # X축 폰트 (3배)
-    "ytick.labelsize": 35,     # Y축 눈금
-    "legend.fontsize": 48      # 범례 (1.5배)
+    "font.size": 24,
+    "axes.titlesize": 36,
+    "axes.labelsize": 32,
+    "xtick.labelsize": 50,
+    "ytick.labelsize": 35,
+    "legend.fontsize": 48
 })
 
 # ===== Permutation Importance =====
-plt.figure(figsize=(25, 12))  # 그래프 크기 2배 확대
+plt.figure(figsize=(25, 12))
 colors = cycle(["orange", "green", "blue", "red", "purple"])
+
+# 🔥 중요도 표 저장용 dict
+importance_table = {}
 
 for (name, model), color in zip(models.items(), colors):
     model.fit(X_train_scaled, y_train)
-    r = permutation_importance(model, X_test_scaled, y_test, n_repeats=10, random_state=42, n_jobs=-1)
+
+    r = permutation_importance(
+        model,
+        X_test_scaled,
+        y_test,
+        n_repeats=10,
+        random_state=42,
+        n_jobs=-1
+    )
+
     importances = r.importances_mean
-    plt.plot(features, importances / np.max(importances), marker='o', label=name, color=color, lw=4)
+    importances_norm = importances / np.max(importances)
+
+    # ===== 그래프 =====
+    plt.plot(
+        features,
+        importances_norm,
+        marker='o',
+        label=name,
+        color=color,
+        lw=4
+    )
+
+    # ===== 표 저장 =====
+    importance_table[name] = importances_norm
 
 plt.title("Permutation Importance (Normalized, All Models)", fontsize=45)
 plt.ylabel("Normalized Importance", fontsize=40)
@@ -73,4 +98,12 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "PermutationImportance_large.png"), dpi=400)
 plt.close()
 
-print(f"[+] Permutation Importance 그래프가 {save_dir} 폴더에 큰 사이즈(20x12인치, 400dpi)로 저장되었습니다.")
+# ===== 🔥 중요도 표 CSV 저장 =====
+importance_df = pd.DataFrame(importance_table, index=features)
+importance_df.index.name = "Feature"
+
+csv_out = os.path.join(save_dir, "PermutationImportance_table.csv")
+importance_df.to_csv(csv_out, encoding="utf-8-sig")
+
+print(f"[✓] Permutation Importance 그래프 저장 완료")
+print(f"[✓] Permutation Importance 표 저장 완료 → {csv_out}")
