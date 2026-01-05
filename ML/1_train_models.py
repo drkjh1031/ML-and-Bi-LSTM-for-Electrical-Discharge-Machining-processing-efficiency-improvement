@@ -22,12 +22,9 @@ except Exception:
 
 # ===== 경로 =====
 OUT_DIR  = Path(
-    r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\ML\1223_models"
+    r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\ML"
 )
-DATA_CSV = Path(
-    r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement"
-    r"\PreprocessingData\20251223\ML_dataset.csv"
-)
+DATA_CSV = Path(r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\ML_dataset.csv")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 print("[i] 데이터 로딩:", DATA_CSV)

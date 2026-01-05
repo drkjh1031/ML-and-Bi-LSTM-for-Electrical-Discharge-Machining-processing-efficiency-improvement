@@ -149,7 +149,7 @@ def main(config):
 # =========================================================
 if __name__ == "__main__":
     config = {
-        "data_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\5_BiLSTM_dataset",
+        "data_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\5_BiLSTM_dataset",
         "batch_size": 32,
         "window_size": 1000,
         "oversample_B": 1,
