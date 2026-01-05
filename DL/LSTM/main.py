@@ -32,11 +32,11 @@ def evaluate(model, loader, device):
 
 def main():
     config = {
-        "data_dir": r"C:\Users\drkjh\Desktop\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\DL\LSTM\dataset",
+        "data_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\DL\LSTM\dataset",
         "batch_size": 32,
         "window_size": 1000,
-        "save_path": r"C:\Users\drkjh\Desktop\LSTM_voltage_depth.pth",
-        "fig_save_dir": r"C:\Users\drkjh\Desktop\figs"
+        "save_path": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\DL\LSTM\LSTM_voltage_depth.pth",
+        "fig_save_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\DL\LSTM\figs"
     }
 
     os.makedirs(config["fig_save_dir"], exist_ok=True)
