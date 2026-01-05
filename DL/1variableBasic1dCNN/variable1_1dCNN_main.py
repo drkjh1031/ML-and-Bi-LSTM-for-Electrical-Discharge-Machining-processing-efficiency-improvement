@@ -13,13 +13,14 @@ from sklearn.metrics import (
     average_precision_score
 )
 from sklearn.preprocessing import label_binarize
-from data_utils import create_loaders
-from trainer import VoltageTrainer
-from models import VoltageCNN1D
+
+from variable1_1dCNN_models import VoltageCNN1D
+from variable1_1dCNN_data_utils import create_loaders
+from variable1_1dCNN_trainer import VoltageTrainer
 
 
 # =========================================================
-# 평가 및 그래프 출력 (구조 동일, 제목만 CNN으로 변경)
+# 평가 및 그래프 출력
 # =========================================================
 def evaluate_and_plot(model, loader, device, save_dir):
     os.makedirs(save_dir, exist_ok=True)
@@ -104,26 +105,30 @@ def main(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[DEVICE] {device}")
 
-    # ===== Dataset / Loader (변경 없음) =====
+    # ===== Dataset / Loader =====
     train_loader = create_loaders(
         config["data_dir"],
         config["batch_size"],
         window_size=config["window_size"],
-        oversample_B=config.get("oversample_B", 1),
-        num_workers=config.get("num_workers", 0)
     )
 
-    # ===== 변경 ②: CNN 모델 생성 =====
+    # ===== 모델 =====
     model = VoltageCNN1D(num_classes=3).to(device)
-
     trainer = VoltageTrainer(model, device)
 
-    print("\n== CNN TRAINING START ==")
-    trainer.train(
-        train_loader,
-        epochs=config["epochs"],
-        lr=config["lr"]
-    )
+    print("\n== CNN TRAINING START (90 epochs, staged LR) ==")
+
+    # ===== Stage 1 =====
+    print("\n[Stage 1] lr = 1e-3, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=1e-3)
+
+    # ===== Stage 2 =====
+    print("\n[Stage 2] lr = 5e-4, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=5e-4)
+
+    # ===== Stage 3 =====
+    print("\n[Stage 3] lr = 1e-4, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=1e-4)
 
     # ===== 모델 저장 =====
     os.makedirs(os.path.dirname(config["save_path"]), exist_ok=True)
@@ -147,12 +152,8 @@ if __name__ == "__main__":
         "data_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\5_BiLSTM_dataset",
         "batch_size": 32,
         "window_size": 1000,
-        "oversample_B": 1,
-        "num_workers": 0,
-        "epochs": 15,
-        "lr": 1e-3,
-        "save_path": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\2variableBasic1dCNN\CNN1D.pth",
-        "fig_save_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\2variableBasic1dCNN\Figures\CNN1D"
+        "save_path": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\variable1_1dCNN\variable1_1dCNN.pth",
+        "fig_save_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\variable1_1dCNN"
     }
 
     main(config)

@@ -4,7 +4,13 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import confusion_matrix, roc_curve, auc, precision_recall_curve, average_precision_score
+from sklearn.metrics import (
+    confusion_matrix,
+    roc_curve,
+    auc,
+    precision_recall_curve,
+    average_precision_score
+)
 from sklearn.preprocessing import label_binarize
 
 from BiLSTM_models import VoltageBiLSTM
@@ -12,9 +18,13 @@ from BiLSTM_data_utils import create_loaders
 from BiLSTM_trainer import VoltageTrainer
 
 
+# =========================================================
+# 평가 및 그래프 출력
+# =========================================================
 def evaluate_and_plot(model, loader, device, save_dir):
     os.makedirs(save_dir, exist_ok=True)
     model.eval()
+
     all_labels, all_preds, all_probs = [], [], []
 
     with torch.no_grad():
@@ -31,12 +41,14 @@ def evaluate_and_plot(model, loader, device, save_dir):
     y_true = np.array(all_labels)
     y_pred = np.array(all_preds)
     y_prob = np.array(all_probs)
+
     classes = ["Hold", "Go", "Back"]
 
     # ===== Confusion Matrix =====
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(5, 4))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=classes, yticklabels=classes)
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=classes, yticklabels=classes)
     plt.title("BiLSTM Confusion Matrix")
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
@@ -77,45 +89,73 @@ def evaluate_and_plot(model, loader, device, save_dir):
     plt.savefig(os.path.join(save_dir, "BiLSTM_PR.png"), dpi=400)
     plt.close()
 
-    print(f"[+] Confusion Matrix, ROC, and PR curves saved in {save_dir}")
+    print(f"[DONE] BiLSTM evaluation figures saved to: {save_dir}")
 
 
+# =========================================================
+# Main
+# =========================================================
 def main(config):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[DEVICE] {device}")
 
     train_loader = create_loaders(
-        config['data_dir'],
-        config['batch_size'],
-        window_size=config['window_size'],
-        oversample_B=config.get('oversample_B', 1),
-        num_workers=config.get('num_workers', 0)
+        config["data_dir"],
+        config["batch_size"],
+        window_size=config["window_size"],
+        oversample_B=config.get("oversample_B", 1),
+        num_workers=config.get("num_workers", 0)
     )
 
-    model = VoltageBiLSTM(input_size=2, hidden_size=128, num_layers=2, num_classes=3).to(device)
+    model = VoltageBiLSTM(
+        input_size=2,
+        hidden_size=128,
+        num_layers=2,
+        num_classes=3
+    ).to(device)
+
     trainer = VoltageTrainer(model, device)
 
-    print("\n== TRAINING START ==")
-    trainer.train(train_loader, epochs=config['epochs'], lr=config['lr'])
+    print("\n== BiLSTM TRAINING START (90 epochs, staged LR) ==")
 
-    os.makedirs(os.path.dirname(config['save_path']), exist_ok=True)
-    torch.save(model.state_dict(), config['save_path'])
-    print(f"[DONE] Model saved at {config['save_path']}")
+    # ===== Stage 1 =====
+    print("\n[Stage 1] lr = 1e-3, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=1e-3)
 
-    # === Evaluate and plot ===
-    evaluate_and_plot(model, train_loader, device, config['fig_save_dir'])
+    # ===== Stage 2 =====
+    print("\n[Stage 2] lr = 5e-4, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=5e-4)
+
+    # ===== Stage 3 =====
+    print("\n[Stage 3] lr = 1e-4, epochs = 30")
+    trainer.train(train_loader, epochs=30, lr=1e-4)
+
+    # ===== 모델 저장 =====
+    os.makedirs(os.path.dirname(config["save_path"]), exist_ok=True)
+    torch.save(model.state_dict(), config["save_path"])
+    print(f"[DONE] BiLSTM model saved at: {config['save_path']}")
+
+    # ===== 평가 =====
+    evaluate_and_plot(
+        model,
+        train_loader,
+        device,
+        config["fig_save_dir"]
+    )
 
 
-if __name__ == '__main__':
+# =========================================================
+# 실행 설정
+# =========================================================
+if __name__ == "__main__":
     config = {
-        'data_dir': r'C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\5_BiLSTM_dataset',
-        'batch_size': 32,
-        'window_size': 1000,
-        'oversample_B': 1,
-        'num_workers': 0,
-        'epochs': 15,
-        'lr': 1e-3,
-        'save_path': r'C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\BiLSTM\1223model_BiLSTM.pth',
-        'fig_save_dir': r'C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\BiLSTM'
+        "data_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\PreprocessingData\20251223\5_BiLSTM_dataset",
+        "batch_size": 32,
+        "window_size": 1000,
+        "oversample_B": 1,
+        "num_workers": 0,
+        "save_path": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\BiLSTM\BiLSTM.pth",
+        "fig_save_dir": r"C:\Users\PREMA\Desktop\진하\ML-and-Bi-LSTM-for-Electrical-Discharge-Machining-processing-efficiency-improvement\compareModels\BiLSTM"
     }
+
     main(config)
