@@ -28,11 +28,10 @@ class VoltageLSTM(nn.Module):
         )
 
     def forward(self, voltage, depth):
-        # voltage: [B, 1000] ¡æ [B, 1000, 1]
         x = voltage.unsqueeze(-1)
 
         out, _ = self.rnn(x)
-        h_last = out[:, -1, :]      # last timestep
+        h_last = out[:, -1, :]      
 
         fused = torch.cat([h_last, depth], dim=1)
         return self.classifier(fused)
