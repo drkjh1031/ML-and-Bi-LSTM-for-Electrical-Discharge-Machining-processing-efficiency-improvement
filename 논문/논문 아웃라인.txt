@@ -1,0 +1,26 @@
+논문 아웃라인
+
+1. Introduction
+1.1 Research Background: EDM공정의 특징과 한계, 기존 임계값 기반제어 방식의 문제점
+1.2 related works and contributions: EDM 제어 연구 동향, 머신러닝과 딥러닝 기반 접근
+
+2. Experimental Setup and Data Acquisition
+2.1 EDM System Configuration: 사용 장비, 공정 조건, 커패시턴스, 전극, 공작물
+2.2 Measurement System and Sensor System: 피에조 센서, 전압신호 취득방식, 샘플링 주파수
+2.3 Voltage Signal Characteristics: 방전 전압신호 패턴, 상태별 특징
+2.4 Dataset Structure: 라벨링 기준, 데이터 분포
+
+3. Proposed Methodology
+3.1 Training Data Structure: 전처리 및 입력변수 구성
+3.2 Baseline Machine Learning Models: RF, SVM, KNN, DT, NB
+3.3 Proposed LSTM-Based Control Model
+3.3.1 Overall Framework
+3.3.2 Model Architecture and Decision Logic
+
+4. Experimental Results
+4.1 Classification Evaluation
+4.2 Machining Performance
+
+5. Discussion
+
+6. conclusion
